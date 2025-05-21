@@ -60,7 +60,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>tourplanner.tourplanner/tourplanner.tourplanner.app.MainApplication</mainClass>
+                            <mainClass>tourplanner.tourplanner/tourplanner.tourplanner.MainApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
