@@ -6,8 +6,8 @@ import tourplanner.tourplanner.model.Tour;
 public class TourViewModel {
     private final Tour model;
 
-    public TourViewModel(Tour m) {
-        this.model = m;
+    public TourViewModel(Tour model) {
+        this.model = model;
     }
 
     public StringProperty nameProperty() {
@@ -34,5 +34,13 @@ public class TourViewModel {
         return !nameProperty().get().isEmpty()
                 && !fromProperty().get().isEmpty()
                 && !toProperty().get().isEmpty();
+    }
+
+    public Tour toModel() {
+        return new Tour(nameProperty().get(),
+                fromProperty().get(),
+                toProperty().get(),
+                distanceProperty().get(),
+                imagePathProperty().get());
     }
 }

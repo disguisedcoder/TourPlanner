@@ -4,8 +4,12 @@ module tourplanner.tourplanner {
 
 
     opens tourplanner.tourplanner to javafx.fxml;
+
+    opens tourplanner.tourplanner.view to javafx.fxml;
+
     exports tourplanner.tourplanner;
     exports tourplanner.tourplanner.view;
-    opens tourplanner.tourplanner.app to javafx.fxml;
-    opens tourplanner.tourplanner.view to javafx.fxml;
+    exports tourplanner.tourplanner.service;
+    exports tourplanner.tourplanner.model;
+    exports tourplanner.tourplanner.viewmodel;
 }
