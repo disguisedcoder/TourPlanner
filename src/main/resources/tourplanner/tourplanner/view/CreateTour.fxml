@@ -6,25 +6,30 @@
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           hgap="10" vgap="10">
+    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
 
-    <!-- Padding korrekt als Kind-Element -->
-    <padding>
-        <Insets top="10" right="10" bottom="10" left="10"/>
-    </padding>
-
-    <Label text="Name:"      GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+    <Label text="Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
     <TextField fx:id="nameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-    <Label text="From:"      GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    <Label text="From:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
     <TextField fx:id="fromField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-    <Label text="To:"        GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+    <Label text="To:"   GridPane.rowIndex="2" GridPane.columnIndex="0"/>
     <TextField fx:id="toField"   GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
-    <Label text="Distance:"  GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+    <Label text="Distance (km):" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
     <TextField fx:id="distField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
-    <Label text="Image:"     GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-    <TextField fx:id="imgField"  GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+    <Label text="Estimated time (min):" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+    <TextField fx:id="estimateField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
 
+    <Label text="Transport:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+    <TextField fx:id="transportField" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+    <Label text="Description:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+    <TextArea fx:id="descriptionArea" prefRowCount="3" wrapText="true"
+              GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+    <Label text="Image:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+    <TextField fx:id="imgField" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
 </GridPane>

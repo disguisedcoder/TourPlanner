@@ -6,82 +6,83 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 import tourplanner.tourplanner.viewmodel.MainViewModel;
 import tourplanner.tourplanner.viewmodel.TourViewModel;
-import tourplanner.tourplanner.model.Tour;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Optional;
 
 public class EditTourController {
-    @FXML private TextField nameField, fromField, toField, distField, imgField;
 
-    private final MainViewModel vm     = MainViewModel.getInstance();
-    private       TourViewModel selectedTvm;
+    /* ---------- FXML-Felder ---------- */
+    @FXML private TextField nameField;
+    @FXML private TextField fromField;
+    @FXML private TextField toField;
+    @FXML private TextField distField;
+    @FXML private TextField estimateField;
+    @FXML private TextField transportField;
+    @FXML private TextArea  descriptionArea;
+    @FXML private TextField imgField;
 
-    // Default‐Konstruktor
-    public EditTourController() {}
+    /* ---------- View-Model-Zugriff ---------- */
+    private final MainViewModel vm = MainViewModel.getInstance();
 
-    /** Muss VOR showDialog() aufgerufen werden, um die Tour zu setzen. */
-    public void setTour(TourViewModel tvm) {
-        this.selectedTvm = tvm;
-    }
+    /* ---------- wird extern (z. B. aus TourListController) gesetzt ---------- */
+    private TourViewModel tvm;
+    public void setTour(TourViewModel tvm) { this.tvm = tvm; }
 
+    /* ---------- Dialog anzeigen ---------- */
     public void showDialog() {
-        if (selectedTvm == null) {
-            new Alert(Alert.AlertType.WARNING,
-                    "Kein Eintrag ausgewählt", ButtonType.OK)
-                    .showAndWait();
-            return;
-        }
+        TourViewModel tvm = this.tvm != null ? this.tvm : vm.selectedTourProperty().get();
+        if (tvm == null) return;
 
         try {
-            // 1) FXML laden
-            URL url = getClass().getResource(
-                    "/tourplanner/tourplanner/view/CreateTour.fxml"
-            );
-            if (url == null) throw new RuntimeException("FXML nicht gefunden!");
-            FXMLLoader f = new FXMLLoader(url);
+            FXMLLoader f = new FXMLLoader(
+                    getClass().getResource("/tourplanner/tourplanner/view/CreateTour.fxml"));
             f.setController(this);
             Region content = f.load();
 
-            // 2) Felder vorbelegen
-            nameField.setText(selectedTvm.nameProperty().get());
-            fromField.setText(selectedTvm.fromProperty().get());
-            toField.setText(selectedTvm.toProperty().get());
-            distField.setText(
-                    String.valueOf(selectedTvm.distanceProperty().get())
-            );
-            imgField.setText(selectedTvm.imagePathProperty().get());
+            /* Felder mit aktuellen Daten füllen */
+            nameField.setText(tvm.nameProperty().get());
+            fromField.setText(tvm.fromProperty().get());
+            toField.setText(tvm.toProperty().get());
+            distField.setText(String.valueOf(tvm.distanceProperty().get()));
+            estimateField.setText(String.valueOf(tvm.estimatedTimeProperty().get()));
+            transportField.setText(tvm.transportTypeProperty().get());
+            descriptionArea.setText(tvm.descriptionProperty().get());
+            imgField.setText(tvm.imagePathProperty().get());
 
-            // 3) Dialog aufbauen
+            /* Dialog konfigurieren */
             Dialog<ButtonType> dlg = new Dialog<>();
-            dlg.setTitle("Edit Tour");
             dlg.getDialogPane().setContent(content);
-            dlg.getDialogPane().getButtonTypes()
-                    .addAll(ButtonType.OK, ButtonType.CANCEL);
+            dlg.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+            dlg.setTitle("Edit Tour");
 
-            // 4) anzeigen und warten
+            /* Ergebnis auswerten */
             Optional<ButtonType> res = dlg.showAndWait();
             if (res.orElse(ButtonType.CANCEL) == ButtonType.OK) {
-                // 5) neue Werte validieren & übernehmen
-                double d;
-                try {
-                    d = Double.parseDouble(distField.getText());
-                } catch (NumberFormatException ex) {
-                    new Alert(Alert.AlertType.ERROR,
-                            "Distance must be a number")
-                            .showAndWait();
-                    return;
+                double d; int est;
+                try { d = Double.parseDouble(distField.getText().trim()); }
+                catch (Exception e) {
+                    new Alert(Alert.AlertType.ERROR,"Distance must be a number")
+                            .showAndWait(); return;
                 }
-                selectedTvm.nameProperty().set(nameField.getText());
-                selectedTvm.fromProperty().set(fromField.getText());
-                selectedTvm.toProperty().set(toField.getText());
-                selectedTvm.distanceProperty().set(d);
-                selectedTvm.imagePathProperty().set(imgField.getText());
-            }
+                try { est = Integer.parseInt(estimateField.getText().trim()); }
+                catch (Exception e) {
+                    new Alert(Alert.AlertType.ERROR,"Estimated time must be an integer")
+                            .showAndWait(); return;
+                }
 
+                /* ViewModel aktualisieren */
+                tvm.nameProperty()       .set(nameField.getText().trim());
+                tvm.fromProperty()       .set(fromField.getText().trim());
+                tvm.toProperty()         .set(toField.getText().trim());
+                tvm.distanceProperty()   .set(d);
+                tvm.estimatedTimeProperty().set(est);
+                tvm.transportTypeProperty().set(transportField.getText().trim());
+                tvm.descriptionProperty() .set(descriptionArea.getText().trim());
+                tvm.imagePathProperty()   .set(imgField.getText().trim());
+            }
         } catch (IOException e) {
-            throw new RuntimeException("Fehler beim Laden des Edit-Tour-Dialogs", e);
+            throw new RuntimeException(e);
         }
     }
 }

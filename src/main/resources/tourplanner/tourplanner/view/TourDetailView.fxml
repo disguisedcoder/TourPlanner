@@ -4,41 +4,50 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="tourplanner.tourplanner.view.TourDetailController">
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="tourplanner.tourplanner.view.TourDetailController"
+      spacing="20">
 
-    <padding>
-        <Insets top="10" right="10" bottom="10" left="10"/>
-    </padding>
+    <padding><Insets top="14" left="14" right="14" bottom="14"/></padding>
 
-    <!-- Linke Seite: Labels + TextFields -->
-    <GridPane layoutX="0" layoutY="0" hgap="10" vgap="8">
-        <Label text="Name:"    GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <TextField fx:id="nameField"
-                   editable="false"
+    <GridPane maxWidth="400" hgap="8" vgap="8">
+        <columnConstraints>
+            <ColumnConstraints minWidth="110"/>
+            <ColumnConstraints minWidth="240" hgrow="ALWAYS"/>
+        </columnConstraints>
+
+        <Label text="Name:"                       GridPane.rowIndex="0"/>
+        <TextField fx:id="nameField" editable="false"
                    GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-        <Label text="From:"    GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <TextField fx:id="fromField"
-                   editable="false"
+        <Label text="From:"                       GridPane.rowIndex="1"/>
+        <TextField fx:id="fromField" editable="false"
                    GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-        <Label text="To:"      GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-        <TextField fx:id="toField"
-                   editable="false"
+        <Label text="To:"                         GridPane.rowIndex="2"/>
+        <TextField fx:id="toField" editable="false"
                    GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
-        <Label text="Distance:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-        <TextField fx:id="distField"
-                   editable="false"
+        <Label text="Distance (km):"              GridPane.rowIndex="3"/>
+        <TextField fx:id="distField" editable="false"
                    GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label text="Estimated (min):"            GridPane.rowIndex="4"/>
+        <TextField fx:id="estimateField" editable="false"
+                   GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+        <Label text="Transport:"                  GridPane.rowIndex="5"/>
+        <TextField fx:id="transportField" editable="false"
+                   GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+        <Label text="Description:"                GridPane.rowIndex="6"/>
+        <TextArea fx:id="descriptionArea" editable="false" wrapText="true"
+                  prefRowCount="3"
+                  GridPane.rowIndex="6" GridPane.columnIndex="1"/>
     </GridPane>
 
-    <!-- Rechte Seite: Karte/Bild -->
-    <ImageView fx:id="mapView"
-               fitWidth="300" fitHeight="180"
-               preserveRatio="true"
-               layoutX="350" layoutY="0"/>
-
-</AnchorPane>
+    <StackPane HBox.hgrow="ALWAYS" minWidth="0">
+        <ImageView fx:id="mapView" preserveRatio="true" smooth="true"/>
+    </StackPane>
+</HBox>
