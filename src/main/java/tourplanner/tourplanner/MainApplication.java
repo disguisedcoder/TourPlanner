@@ -5,23 +5,29 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.util.Objects;
+import tourplanner.tourplanner.service.InMemoryTourService;
+import tourplanner.tourplanner.service.InMemoryTourLogService;
+import tourplanner.tourplanner.viewmodel.MainViewModel;
 
 public class MainApplication extends Application {
-    @Override
-    public void start(Stage stage) throws Exception {
-        BorderPane root = FXMLLoader.load(
-                Objects.requireNonNull(getClass().getResource("/tourplanner/tourplanner/MainView.fxml"))
+    @Override public void start(Stage stage) throws Exception {
+        // VM‐Singleton initialisieren
+        MainViewModel.init(
+                new InMemoryTourService(),
+                new InMemoryTourLogService()
         );
-        Scene scene = new Scene(root, 800, 600);
-        stage.setScene(scene);
-        stage.setTitle("SWEN2 TourPlanner");
+
+        // FXML laden – alle Controller brauchen nur Default‐Konstruktor
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/tourplanner/tourplanner/view/MainView.fxml")
+        );
+        BorderPane root = loader.load();
+        stage.setScene(new Scene(root,900,600));
+        stage.setTitle("TourPlannerFX");
         stage.show();
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 }

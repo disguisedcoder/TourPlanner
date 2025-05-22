@@ -1,14 +1,9 @@
 package tourplanner.tourplanner.view;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 
 public class MainController {
-    @FXML
-    private Label welcomeText;
+    @FXML private BorderPane rootPane;
 
-    @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
-    }
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tourplanner.tourplanner.view.MainController">
+
+    <top>
+        <fx:include source="MenuView.fxml"/>
+    </top>
+
+    <left>
+        <fx:include source="TourListView.fxml"/>
+    </left>
+
+    <center>
+        <!-- Inneres BorderPane für Details + Logs -->
+        <BorderPane>
+
+            <!-- Oben: unsere neue kombinierte Detail‐View -->
+            <top>
+                <fx:include source="TourDetailView.fxml"/>
+            </top>
+
+            <!-- Unten: TourLog -->
+            <center>
+                <fx:include source="TourLog.fxml"/>
+            </center>
+
+        </BorderPane>
+    </center>
+
+</BorderPane>

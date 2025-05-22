@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="tourplanner.tourplanner.view.TourBigDetailController"
+      prefHeight="200">
+    <children>
+        <ImageView fx:id="mapView"
+                   fitWidth="800"
+                   fitHeight="200"
+                   preserveRatio="true"/>
+    </children>
+</Pane>

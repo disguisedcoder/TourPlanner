@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.GridPane?>
+
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="tourplanner.tourplanner.view.TourSmallDetailController"
+          hgap="5" vgap="5">
+    <Label text="Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+    <Label fx:id="nameLbl" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+    <Label text="From:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    <Label fx:id="fromLbl" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+    <Label text="To:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+    <Label fx:id="toLbl" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+    <Label text="Dist:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+    <Label fx:id="distLbl" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+</GridPane>

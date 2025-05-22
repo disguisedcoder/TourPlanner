@@ -45,4 +45,5 @@ public class TourLog {
     public StringProperty ratingProperty() {
         return rating;
     }
+
 }

@@ -12,7 +12,8 @@ public class InMemoryTourLogService implements TourLogService {
 
     @Override
     public List<TourLog> getLogsForTour(String name) {
-        return data.stream().filter(l -> l.tourNameProperty().get().equals(name))
+        return data.stream()
+                .filter(l -> l.tourNameProperty().get().equals(name))
                 .collect(Collectors.toList());
     }
 

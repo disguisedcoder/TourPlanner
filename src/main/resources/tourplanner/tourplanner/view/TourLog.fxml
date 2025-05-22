@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+
+<?import javafx.scene.layout.HBox?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="tourplanner.tourplanner.view.TourLogController"
+      spacing="5">
+    <HBox spacing="5">
+        <Button text="New Log"    onAction="#onNewLog"/>
+        <Button text="Delete Log" onAction="#onDeleteLog"/>
+    </HBox>
+    <ListView fx:id="logList" prefHeight="150"/>
+</VBox>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="tourplanner.tourplanner.view.TourListController"
+      spacing="8">
+
+    <!-- korrektes Padding als Kind-Element -->
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <!-- Suchleiste -->
+    <HBox spacing="5">
+        <TextField fx:id="searchField" promptText="Search…"/>
+        <Button text="Search" onAction="#onSearch"/>
+    </HBox>
+
+    <!-- Überschrift -->
+    <Label text="Tours"
+           style="-fx-font-size:14px; -fx-font-weight:bold;"/>
+
+    <!-- Tour-Liste -->
+    <ListView fx:id="tourList" VBox.vgrow="ALWAYS"/>
+
+    <!-- Update / Delete Buttons -->
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Update"
+                style="-fx-background-color:#4CAF50; -fx-text-fill:white;"
+                onAction="#onEditTour"/>
+        <Button text="Delete"
+                style="-fx-background-color:#F44336; -fx-text-fill:white;"
+                onAction="#onDeleteTour"/>
+    </HBox>
+
+</VBox>
