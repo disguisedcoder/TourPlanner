@@ -1,7 +1,6 @@
 package tourplanner.tourplanner.viewmodel;
 
-import javafx.beans.property.StringProperty;
-import javafx.scene.image.Image;
+import javafx.beans.property.*;
 import tourplanner.tourplanner.model.Tour;
 
 public class TourViewModel {
@@ -9,22 +8,10 @@ public class TourViewModel {
 
     public TourViewModel(Tour model) {
         this.model = model;
-        // Default-Platzhalter setzen, falls kein Bildpfad existiert
-        String current = model.imagePathProperty().get();
-        if (current == null || current.isBlank()) {
-            String placeholder = getClass()
-                    .getResource("/tourplanner/tourplanner/view/images/demo.png")
-                    .toExternalForm();
-            model.imagePathProperty().set(placeholder);
-        }
     }
 
     public StringProperty nameProperty() {
         return model.nameProperty();
-    }
-
-    public StringProperty descriptionProperty() {
-        return model.descriptionProperty();
     }
 
     public StringProperty fromProperty() {
@@ -35,16 +22,8 @@ public class TourViewModel {
         return model.toProperty();
     }
 
-    public StringProperty transportTypeProperty() {
-        return model.transportTypeProperty();
-    }
-
-    public javafx.beans.property.DoubleProperty distanceProperty() {
+    public DoubleProperty distanceProperty() {
         return model.distanceProperty();
-    }
-
-    public StringProperty estimatedTimeProperty() {
-        return model.estimatedTimeProperty();
     }
 
     public StringProperty imagePathProperty() {
@@ -57,19 +36,10 @@ public class TourViewModel {
                 && !toProperty().get().isEmpty();
     }
 
-    public Image getMapImage() {
-        return new Image(imagePathProperty().get(), true);
-    }
-
     public Tour toModel() {
         return new Tour(
-                nameProperty().get(),
-                descriptionProperty().get(),
-                fromProperty().get(),
-                toProperty().get(),
-                transportTypeProperty().get(),
-                distanceProperty().get(),
-                estimatedTimeProperty().get(),
+                nameProperty().get(), fromProperty().get(),
+                toProperty().get(), distanceProperty().get(),
                 imagePathProperty().get()
         );
     }

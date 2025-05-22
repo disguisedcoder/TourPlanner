@@ -36,17 +36,7 @@ public class MenuViewModel {
     }
 
     public void createTour() {
-        // Erzeuge neue Demo-Tour mit leeren Feldern; imagePath="" → VM setzt demo.png
-        Tour m = new Tour(
-                "Neue Tour",      // name
-                "",               // description
-                "Startort",       // from
-                "Zielort",        // to
-                "Auto",           // transportType
-                0.0,              // distance
-                "",               // estimatedTime
-                ""                // imagePath: leer, führt zum Placeholder
-        );
+        Tour m = new Tour("Neue Tour", "Von", "Nach", 0, "/tourplanner/tourplanner/images/default.png");
         service.addTour(m);
         var tvm = new TourViewModel(m);
         if (onCreate != null) onCreate.accept(tvm);

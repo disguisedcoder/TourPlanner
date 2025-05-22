@@ -11,6 +11,4 @@ public interface TourService {
 
     void removeTour(Tour t);
 
-    void updateTour(Tour t);
-
 }

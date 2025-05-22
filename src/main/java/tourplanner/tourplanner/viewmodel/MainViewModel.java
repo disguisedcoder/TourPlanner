@@ -60,9 +60,6 @@ public class MainViewModel {
                 .forEach(t -> allTours.add(new TourViewModel(t)));
         tours.setPredicate(tv -> true);
     }
-    public void updateTour(TourViewModel tvm) {
-        tourSvc.updateTour(tvm.toModel());
-    }
 
     public ObjectProperty<TourViewModel> selectedTourProperty() {
         return selectedTour;

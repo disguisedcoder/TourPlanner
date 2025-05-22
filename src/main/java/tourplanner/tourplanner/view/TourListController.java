@@ -1,38 +1,42 @@
 package tourplanner.tourplanner.view;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import tourplanner.tourplanner.viewmodel.MainViewModel;
 import tourplanner.tourplanner.viewmodel.TourViewModel;
 
 public class TourListController {
-    @FXML private ListView<TourViewModel> tourListView;
+    @FXML private TextField searchField;
+    @FXML private ListView<TourViewModel> tourList;
 
     private final MainViewModel vm = MainViewModel.getInstance();
 
     @FXML public void initialize() {
-        tourListView.setItems(vm.tours);
-        tourListView.getSelectionModel().selectedItemProperty()
-                .addListener((obs, oldV, newV) -> vm.selectedTourProperty().set(newV));
+        tourList.setItems(vm.tours);
+        tourList.setCellFactory(lv -> new TourCell());
+        // selektiere immer die Property im MainViewModel
+        vm.selectedTourProperty().bind(
+                tourList.getSelectionModel().selectedItemProperty()
+        );
     }
 
-    @FXML private void onCreateTour() {
-        new CreateTourController().showDialog();
+    @FXML void onSearch() {
+        vm.findTours(searchField.getText());
     }
 
-    @FXML private void onEditTour() {
-        TourViewModel sel = tourListView.getSelectionModel().getSelectedItem();
+    @FXML void onEditTour() {
+        TourViewModel sel = tourList.getSelectionModel().getSelectedItem();
         if (sel != null) {
-            // Hier wurde vorher setTour(...) verwendet – jetzt korrekt showDialog(...)
-            new EditTourController().showDialog(sel);
+            EditTourController c = new EditTourController();
+            c.setTour(sel);
+            c.showDialog();
+        } else {
+            new Alert(Alert.AlertType.WARNING,
+                    "Bitte zuerst eine Tour auswählen.").showAndWait();
         }
     }
 
-    @FXML private void onDeleteTour() {
+    @FXML void onDeleteTour() {
         vm.deleteSelectedTour();
-    }
-
-    @FXML private void onRefresh() {
-        vm.refreshTours();
     }
 }
