@@ -9,11 +9,10 @@
         <fx:include source="MenuView.fxml"/>
     </top>
 
-    <!--
     <left>
         <fx:include source="TourListView.fxml"/>
     </left>
-    -->
+
     <!--
     <center>
     -->

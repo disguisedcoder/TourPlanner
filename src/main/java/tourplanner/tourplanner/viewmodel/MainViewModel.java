@@ -1,7 +1,10 @@
 package tourplanner.tourplanner.viewmodel;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import tourplanner.tourplanner.service.TourLogService;
@@ -11,27 +14,22 @@ import tourplanner.tourplanner.service.TourService;
 
 @Component
 public class MainViewModel {
-    private static MainViewModel INSTANCE;
-//
+
 //    public static void init(TourService ts, TourLogService ls) {
 //        INSTANCE = new MainViewModel(ts, ls);
 //    }
-    public static MainViewModel getInstance() {
-        return INSTANCE;
-    }
-//
+
     private final TourService tourSvc;
     private final TourLogService logSvc;
 //    public TourLogService getLogService() { return logSvc; }
-//
-    private final ObservableList<TourViewModel> allTours =
-            FXCollections.observableArrayList();
-//    public final FilteredList<TourViewModel> tours =
-//            new FilteredList<>(allTours, t -> true);
-//
-//    private final ObjectProperty<TourViewModel> selectedTour =
-//            new SimpleObjectProperty<>();
-//
+
+    private final ObservableList<TourViewModel> allTours = FXCollections.observableArrayList();
+
+    public final FilteredList<TourViewModel> tours = new FilteredList<>(allTours, t -> true);
+
+    private final ObjectProperty<TourViewModel> selectedTour =
+            new SimpleObjectProperty<>();
+
 //    private MainViewModel(TourService tourSvc, TourLogService logSvc) {
 //        this.tourSvc = tourSvc;
 //        this.logSvc  = logSvc;
@@ -62,7 +60,7 @@ public class MainViewModel {
 //        tours.setPredicate(tv -> true);
 //    }
 //
-//    public ObjectProperty<TourViewModel> selectedTourProperty() {
-//        return selectedTour;
-//    }
+    public ObjectProperty<TourViewModel> selectedTourProperty() {
+        return selectedTour;
+    }
 }

@@ -1,8 +1,10 @@
 package tourplanner.tourplanner.viewmodel;
 
 import javafx.beans.property.StringProperty;
+import lombok.Getter;
 import tourplanner.tourplanner.model.Tour;
 
+@Getter
 public class TourViewModel {
     private StringProperty nameProperty;
     private StringProperty  fromProperty;
