@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+
+<MenuBar xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="tourplanner.tourplanner.view.MenuController">
+
+    <menus>
+        <!-- FILE-Menü -->
+        <Menu text="File">
+            <MenuItem text="New Tour"    onAction="#onNewTour"/>
+            <!--
+            <MenuItem text="Edit Tour"   onAction="#onEditTour"/>
+            <MenuItem text="Delete Tour" onAction="#onDeleteTour"/>
+            <SeparatorMenuItem/>
+            <MenuItem text="Exit"        onAction="#onExit"/>
+            -->
+        </Menu>
+
+        <!-- EDIT-Menü -->
+        <Menu text="Edit">
+            <!--
+            <MenuItem text="Find Tour"   onAction="#onFindTour"/>
+            <MenuItem text="Reload Tours" onAction="#onReloadTours"/>
+            -->
+        </Menu>
+
+        <!-- OPTIONS-Menü -->
+        <Menu text="Options">
+            <!--
+            <MenuItem text="Settings"    onAction="#onSettings"/>
+            -->
+        </Menu>
+
+        <!-- HELP-Menü -->
+        <Menu text="Help">
+            <!--
+            <MenuItem text="About"       onAction="#onAbout"/>
+            -->
+        </Menu>
+    </menus>
+</MenuBar>

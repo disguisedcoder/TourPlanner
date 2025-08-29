@@ -28,7 +28,7 @@ public class TourPlannerApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         log.info("Starting JavaFX application");
-        FXMLLoader fxmlLoader = new FXMLLoader(TourPlannerApplication.class.getResource("main-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(TourPlannerApplication.class.getResource("view/MainView.fxml"));
         fxmlLoader.setControllerFactory(springContext::getBean);
         Parent root = fxmlLoader.load();
         showStage(stage, root);
