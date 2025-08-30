@@ -1,15 +1,13 @@
 package tourplanner.tourplanner.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -27,6 +25,10 @@ public class TourLog {
     private double totalDistance;
     private int totalTime;
     private String rating;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_tour"))
+    private Tour tour;
 
     public TourLog(String tourName, LocalDateTime now, String comment, int difficulty, double dist, int totalTime, String rating) {
         this.tourName = tourName;

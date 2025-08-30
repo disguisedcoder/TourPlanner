@@ -14,7 +14,6 @@ public class TourCell extends ListCell<TourViewModel> {
         super.updateItem(vm, empty);
 
         if (empty || vm == null) { setGraphic(null); return; }
-        log.info(vm.getNameProperty().get());
 
         setText(vm.getNameProperty().get());
     }

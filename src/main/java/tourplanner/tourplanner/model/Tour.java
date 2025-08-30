@@ -1,10 +1,9 @@
 package tourplanner.tourplanner.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -21,6 +20,9 @@ public class Tour {
     private String description;
     private int estimatedTime;
     private String transportType;
+
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "tour")
+    private List<TourLog> tourLogs;
 
 
     @Builder
