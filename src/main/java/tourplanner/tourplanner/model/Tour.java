@@ -21,10 +21,10 @@ public class Tour {
     private String description;
     private int estimatedTime;
     private String transportType;
-    private String imagePath;
+
 
     @Builder
-    public Tour(String name, String fromLocation, String toLocation, double distance, String description, int estimatedTime, String transportType, String imagePath) {
+    public Tour(String name, String fromLocation, String toLocation, double distance, String description, int estimatedTime, String transportType) {
         this.name = name;
         this.fromLocation = fromLocation;
         this.toLocation = toLocation;
@@ -32,6 +32,5 @@ public class Tour {
         this.description = description;
         this.estimatedTime = estimatedTime;
         this.transportType = transportType;
-        this.imagePath = imagePath;
     }
 }

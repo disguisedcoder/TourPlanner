@@ -6,12 +6,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import tourplanner.tourplanner.service.TourLogService;
 import tourplanner.tourplanner.service.TourService;
+import tourplanner.tourplanner.viewmodel.model.TourViewModel;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 
+@Slf4j
 @Component
 public class MainViewModel {
 
@@ -23,7 +28,7 @@ public class MainViewModel {
     private final TourLogService logSvc;
 //    public TourLogService getLogService() { return logSvc; }
 
-    private final ObservableList<TourViewModel> allTours = FXCollections.observableArrayList();
+    public final ObservableList<TourViewModel> allTours = FXCollections.observableArrayList();
 
     public final FilteredList<TourViewModel> tours = new FilteredList<>(allTours, t -> true);
 
@@ -39,6 +44,11 @@ public class MainViewModel {
     public void addTour(TourViewModel tvm) {
         tourSvc.addTour(tvm.toModel());
         allTours.add(tvm);
+    }
+
+    public void loadTours() {
+        allTours.clear();
+        allTours.addAll(tourSvc.getAllTours().stream().map(TourViewModel::new).toList());
     }
 //    public void deleteSelectedTour() {
 //        var t = selectedTour.get();

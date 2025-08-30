@@ -7,10 +7,9 @@ import javafx.scene.layout.Region;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import tourplanner.tourplanner.viewmodel.MainViewModel;
-import tourplanner.tourplanner.viewmodel.TourViewModel;
+import tourplanner.tourplanner.viewmodel.model.TourViewModel;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -61,15 +60,12 @@ public class CreateTourController {
                 return;
             }
 
-            String img = imgField.getText().isBlank()
-                    ? "/tourplanner/tourplanner/view/images/demo.png" : imgField.getText();
 
             TourViewModel model = new TourViewModel(
                     nameField.textProperty(),
                     fromField.textProperty(),
                     toField.textProperty(),
                     distField.textProperty(),
-                    imgField.textProperty(),
                     descriptionArea.textProperty(),
                     transportField.textProperty(),
                     estimateField.textProperty()
