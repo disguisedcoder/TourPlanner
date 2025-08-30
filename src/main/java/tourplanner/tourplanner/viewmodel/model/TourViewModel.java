@@ -14,6 +14,10 @@ public class TourViewModel {
     private StringProperty  descriptionProperty;
     private StringProperty  transportTypeProperty;
     private StringProperty estimatedTimeProperty;
+    private StringProperty fromLatProperty;
+    private StringProperty fromLngProperty;
+    private StringProperty toLatProperty;
+    private StringProperty toLngProperty;
 
     public TourViewModel(StringProperty nameProperty, StringProperty fromProperty, StringProperty toProperty, StringProperty distanceProperty, StringProperty descriptionProperty, StringProperty transportTypeProperty, StringProperty estimatedTimeProperty) {
         this.nameProperty = nameProperty;
@@ -33,6 +37,10 @@ public class TourViewModel {
         this.descriptionProperty = new SimpleStringProperty(tour.getDescription());
         this.transportTypeProperty = new SimpleStringProperty(tour.getTransportType());
         this.estimatedTimeProperty = new SimpleStringProperty(String.valueOf(tour.getEstimatedTime()));
+        this.fromLatProperty = new SimpleStringProperty(String.valueOf(tour.getFromLat()));
+        this.fromLngProperty = new SimpleStringProperty(String.valueOf(tour.getFromLng()));
+        this.toLatProperty = new SimpleStringProperty(String.valueOf(tour.getToLat()));
+        this.toLngProperty = new SimpleStringProperty(String.valueOf(tour.getToLng()));
     }
 
     public Tour toModel() {
