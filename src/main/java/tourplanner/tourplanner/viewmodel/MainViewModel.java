@@ -2,6 +2,8 @@ package tourplanner.tourplanner.viewmodel;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -12,6 +14,12 @@ import tourplanner.tourplanner.service.TourLogService;
 import tourplanner.tourplanner.service.TourService;
 import tourplanner.tourplanner.viewmodel.model.TourViewModel;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -35,7 +43,7 @@ public class MainViewModel {
     private final ObjectProperty<TourViewModel> selectedTour =
             new SimpleObjectProperty<>();
 
-//    private MainViewModel(TourService tourSvc, TourLogService logSvc) {
+    //    private MainViewModel(TourService tourSvc, TourLogService logSvc) {
 //        this.tourSvc = tourSvc;
 //        this.logSvc  = logSvc;
 //        tourSvc.getAllTours().forEach(t -> allTours.add(new TourViewModel(t)));
@@ -50,6 +58,24 @@ public class MainViewModel {
         allTours.clear();
         allTours.addAll(tourSvc.getAllTours().stream().map(TourViewModel::new).toList());
     }
+
+    public String generateMapHtml(String routeJson) {
+        if(routeJson == null || routeJson.isBlank()) {
+            return "<html><body><p>No map available</p></body></html>";
+        }
+
+        try {
+            URL url = getClass().getResource("/leaflet.html");
+            if(url == null) throw new IOException("leaflet.html not found in resources.");
+
+            String content = Files.readString(Paths.get(url.toURI()), StandardCharsets.UTF_8);
+            return content.replace("{MY_DIRECTIONS}", routeJson);
+        } catch(IOException | URISyntaxException e) {
+            e.printStackTrace();
+            return "<html><body><p>Error loading map</p></body></html>";
+        }
+    }
+
 //    public void deleteSelectedTour() {
 //        var t = selectedTour.get();
 //        if (t!=null) {

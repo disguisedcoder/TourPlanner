@@ -7,13 +7,19 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.web.WebView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import tourplanner.tourplanner.viewmodel.MainViewModel;
 import tourplanner.tourplanner.viewmodel.model.TourViewModel;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 @RequiredArgsConstructor
 
@@ -26,13 +32,13 @@ public class TourDetailController {
     @FXML private TextArea  descriptionArea;
     @FXML private TextField transportField;
     @FXML private TextField estimateField;
+    @FXML private WebView mapView;
 
     private final MainViewModel vm;
     private TourViewModel lastBound;
 
     @FXML
     public void initialize() {
-
         vm.selectedTourProperty().addListener((obs, o, n) -> {
             if (lastBound != null) {
                 nameField.textProperty().unbind();
@@ -54,6 +60,16 @@ public class TourDetailController {
                 transportField.textProperty().bind(n.getTransportTypeProperty());
                 estimateField.textProperty().bind(
                         Bindings.concat(n.getEstimatedTimeProperty()));
+
+                try {
+                    URL url = getClass().getResource("/leaflet.html");
+                    if(url == null) throw new IOException("leaflet.html not found in resources.");
+
+                    String content = Files.readString(Paths.get(url.toURI()), StandardCharsets.UTF_8);
+                    mapView.getEngine().loadContent(content, "text/html");
+                } catch(IOException | URISyntaxException e) {
+                    e.printStackTrace();
+                }
 
             } else {
                 nameField.clear(); fromField.clear(); toField.clear(); distField.clear();

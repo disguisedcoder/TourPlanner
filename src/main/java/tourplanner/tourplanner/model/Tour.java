@@ -20,6 +20,10 @@ public class Tour {
     private String description;
     private int estimatedTime;
     private String transportType;
+    private double fromLat;
+    private double fromLng;
+    private double toLat;
+    private double toLng;
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "tour")
     private List<TourLog> tourLogs;

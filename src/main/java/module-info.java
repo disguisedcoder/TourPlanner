@@ -9,4 +9,7 @@ open module tourplanner.tourplanner {
     requires jakarta.persistence;
     requires spring.data.jpa;
     requires org.hibernate.orm.core;
+    requires javafx.web;
+    requires spring.web;
+    requires com.fasterxml.jackson.databind;
 }

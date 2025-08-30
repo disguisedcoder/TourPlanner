@@ -4,6 +4,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.web.WebView?>
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="tourplanner.tourplanner.view.TourDetailController"
@@ -48,6 +49,6 @@
     </GridPane>
 
     <StackPane HBox.hgrow="ALWAYS" minWidth="0">
-        <ImageView fx:id="mapView" preserveRatio="true" smooth="true"/>
+        <WebView fx:id="mapView" prefHeight="300" prefWidth="300" />
     </StackPane>
 </HBox>
