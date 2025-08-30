@@ -13,28 +13,24 @@
         <fx:include source="TourListView.fxml"/>
     </left>
 
-    <!--
+
     <center>
-    -->
+
         <!-- Inneres BorderPane für Details + Logs -->
-        <!--
         <BorderPane>
--->
             <!-- Oben: unsere neue kombinierte Detail‐View -->
-    <!--
             <top>
                 <fx:include source="TourDetailView.fxml"/>
             </top>
-            -->
 
             <!-- Unten: TourLog -->
             <!--
             <center>
                 <fx:include source="TourLog.fxml"/>
             </center>
+            -->
 
         </BorderPane>
     </center>
-    -->
 
 </BorderPane>
