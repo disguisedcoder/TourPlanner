@@ -1,5 +1,7 @@
 package tourplanner.tourplanner.viewmodel.model;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import lombok.Getter;
@@ -7,17 +9,19 @@ import tourplanner.tourplanner.model.Tour;
 
 @Getter
 public class TourViewModel {
+    private Long id;
     private StringProperty nameProperty;
-    private StringProperty  fromProperty;
-    private StringProperty  toProperty;
+    private StringProperty fromProperty;
+    private StringProperty toProperty;
     private StringProperty distanceProperty;
-    private StringProperty  descriptionProperty;
-    private StringProperty  transportTypeProperty;
+    private StringProperty descriptionProperty;
+    private StringProperty transportTypeProperty;
     private StringProperty estimatedTimeProperty;
     private StringProperty fromLatProperty;
     private StringProperty fromLngProperty;
     private StringProperty toLatProperty;
     private StringProperty toLngProperty;
+    private final ObjectProperty<Tour> selectedTour = new SimpleObjectProperty<>();
 
     public TourViewModel(StringProperty nameProperty, StringProperty fromProperty, StringProperty toProperty, StringProperty distanceProperty, StringProperty descriptionProperty, StringProperty transportTypeProperty, StringProperty estimatedTimeProperty) {
         this.nameProperty = nameProperty;
@@ -30,6 +34,7 @@ public class TourViewModel {
     }
 
     public TourViewModel(Tour tour) {
+        this.id = tour.getId();
         this.nameProperty = new SimpleStringProperty(tour.getName());
         this.fromProperty = new SimpleStringProperty(tour.getFromLocation());
         this.toProperty = new SimpleStringProperty(tour.getToLocation());
@@ -55,3 +60,4 @@ public class TourViewModel {
         );
     }
 }
+

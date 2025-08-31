@@ -26,7 +26,12 @@
         </Menu>
 
         <!-- OPTIONS-Menü -->
-        <Menu text="Options">
+        <Menu text="Import/Export">
+            <MenuItem text="Report Tour" onAction="#onReportTour"/>
+            <MenuItem text="Report Summary"/>
+            <MenuItem text="Import Tours"/>
+            <MenuItem text="Export Tours"/>
+
             <!--
             <MenuItem text="Settings"    onAction="#onSettings"/>
             -->

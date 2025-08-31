@@ -10,15 +10,18 @@ import javafx.collections.transformation.FilteredList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import tourplanner.tourplanner.service.ReportService;
 import tourplanner.tourplanner.service.TourLogService;
 import tourplanner.tourplanner.service.TourService;
 import tourplanner.tourplanner.viewmodel.model.TourViewModel;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -34,6 +37,7 @@ public class MainViewModel {
 
     private final TourService tourSvc;
     private final TourLogService logSvc;
+    private final ReportService reportService;
 //    public TourLogService getLogService() { return logSvc; }
 
     public final ObservableList<TourViewModel> allTours = FXCollections.observableArrayList();
@@ -76,6 +80,22 @@ public class MainViewModel {
         }
     }
 
+    public void reportSelectedTour(Path target) {
+        var sel = selectedTour.get();
+        if (sel == null) {
+            throw new IllegalStateException("Bitte zuerst eine Tour auswählen.");
+        }
+
+        var tour = sel.toModel();
+
+        try {
+            reportService.generateTourReport(tour, target);
+            log.info("Report erstellt: {}", target);
+        } catch (IOException e) {
+            log.error("Report fehlgeschlagen", e);
+            throw new UncheckedIOException("Report konnte nicht erstellt werden: " + e.getMessage(), e);
+        }
+    }
 //    public void deleteSelectedTour() {
 //        var t = selectedTour.get();
 //        if (t!=null) {
@@ -96,6 +116,8 @@ public class MainViewModel {
 //        tours.setPredicate(tv -> true);
 //    }
 //
+
+
     public ObjectProperty<TourViewModel> selectedTourProperty() {
         return selectedTour;
     }

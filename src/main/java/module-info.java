@@ -12,4 +12,9 @@ open module tourplanner.tourplanner {
     requires javafx.web;
     requires spring.web;
     requires com.fasterxml.jackson.databind;
+
+    requires jakarta.annotation;
+    requires layout;
+    requires kernel;
+    requires io;
 }
