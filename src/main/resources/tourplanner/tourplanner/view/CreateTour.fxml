@@ -24,7 +24,7 @@
     <TextField fx:id="estimateField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
 
     <Label text="Transport:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-    <TextField fx:id="transportField" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+    <ComboBox fx:id="transportField" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
 
     <Label text="Description:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
     <TextArea fx:id="descriptionArea" prefRowCount="3" wrapText="true"

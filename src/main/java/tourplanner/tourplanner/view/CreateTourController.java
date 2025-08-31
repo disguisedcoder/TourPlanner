@@ -1,11 +1,13 @@
 package tourplanner.tourplanner.view;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import tourplanner.tourplanner.model.TransportType;
 import tourplanner.tourplanner.viewmodel.MainViewModel;
 import tourplanner.tourplanner.viewmodel.model.TourViewModel;
 
@@ -22,9 +24,11 @@ public class CreateTourController {
     @FXML private TextField toField;
     @FXML private TextField distField;
     @FXML private TextField estimateField;
-    @FXML private TextField transportField;
     @FXML private TextArea descriptionArea;
     @FXML private TextField imgField;
+
+
+    @FXML private ComboBox<TransportType> transportField;
 
     private final MainViewModel vm;
 
@@ -37,6 +41,11 @@ public class CreateTourController {
             content = f.load();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+
+        transportField.setItems(FXCollections.observableArrayList(TransportType.values()));
+        if (transportField.getValue() == null) {
+            transportField.setValue(TransportType.DRIVING_CAR);
         }
 
         Dialog<ButtonType> dlg = new Dialog<>();
@@ -72,7 +81,7 @@ public class CreateTourController {
                     toField.textProperty(),
                     distField.textProperty(),
                     descriptionArea.textProperty(),
-                    transportField.textProperty(),
+                    transportField.valueProperty(),
                     estimateField.textProperty()
             );
 

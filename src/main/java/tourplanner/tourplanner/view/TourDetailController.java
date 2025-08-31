@@ -57,8 +57,15 @@ public class TourDetailController {
                 distField.textProperty().bind(
                         Bindings.concat(n.getDistanceProperty()));
                 descriptionArea.textProperty().bind(n.getDescriptionProperty());
-                transportField.textProperty().bind(n.getTransportTypeProperty());
-                estimateField.textProperty().bind(
+                transportField.textProperty().bind(
+                        Bindings.createStringBinding(
+                                () -> {
+                                    var tt = n.getTransportTypeProperty().get();
+                                    return tt != null ? tt.getLabel() : "";  // oder tt.name() falls du den Enum-Namen willst
+                                },
+                                n.getTransportTypeProperty()
+                        )
+                );                estimateField.textProperty().bind(
                         Bindings.concat(n.getEstimatedTimeProperty()));
 
                 try {

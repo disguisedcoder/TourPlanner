@@ -74,7 +74,7 @@ public class ReportService {
         table.addCell(new Cell().add(new Paragraph(String.valueOf(tour.getEstimatedTime()))));
 
         table.addCell(new Cell().add(new Paragraph("Transport").setFont(boldFont)));
-        table.addCell(new Cell().add(new Paragraph(tour.getTransportType())));
+        table.addCell(new Cell().add(new Paragraph(tour.getTransportType().getLabel())));
 
 //        int popularity = metrics.calculatePopularity(logRepo.findAll(), tour);
 //        table.addCell(new Cell().add(new Paragraph("Popularity").setFont(boldFont)));

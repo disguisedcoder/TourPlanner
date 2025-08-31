@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import lombok.Getter;
 import tourplanner.tourplanner.model.Tour;
+import tourplanner.tourplanner.model.TransportType;
 
 @Getter
 public class TourViewModel {
@@ -15,21 +16,23 @@ public class TourViewModel {
     private StringProperty toProperty;
     private StringProperty distanceProperty;
     private StringProperty descriptionProperty;
-    private StringProperty transportTypeProperty;
     private StringProperty estimatedTimeProperty;
     private StringProperty fromLatProperty;
     private StringProperty fromLngProperty;
     private StringProperty toLatProperty;
     private StringProperty toLngProperty;
+    private final ObjectProperty<TransportType> transportTypeProperty = new SimpleObjectProperty<>();
+
     private final ObjectProperty<Tour> selectedTour = new SimpleObjectProperty<>();
 
-    public TourViewModel(StringProperty nameProperty, StringProperty fromProperty, StringProperty toProperty, StringProperty distanceProperty, StringProperty descriptionProperty, StringProperty transportTypeProperty, StringProperty estimatedTimeProperty) {
+
+    public TourViewModel(StringProperty nameProperty, StringProperty fromProperty, StringProperty toProperty, StringProperty distanceProperty, StringProperty descriptionProperty, ObjectProperty<TransportType> transportTypeProperty, StringProperty estimatedTimeProperty) {
         this.nameProperty = nameProperty;
         this.fromProperty = fromProperty;
         this.toProperty = toProperty;
         this.distanceProperty = distanceProperty;
         this.descriptionProperty = descriptionProperty;
-        this.transportTypeProperty = transportTypeProperty;
+        this.transportTypeProperty.bind(transportTypeProperty);
         this.estimatedTimeProperty = estimatedTimeProperty;
     }
 
@@ -40,7 +43,7 @@ public class TourViewModel {
         this.toProperty = new SimpleStringProperty(tour.getToLocation());
         this.distanceProperty = new SimpleStringProperty(String.valueOf(tour.getDistance()));
         this.descriptionProperty = new SimpleStringProperty(tour.getDescription());
-        this.transportTypeProperty = new SimpleStringProperty(tour.getTransportType());
+        this.transportTypeProperty.set(tour.getTransportType());
         this.estimatedTimeProperty = new SimpleStringProperty(String.valueOf(tour.getEstimatedTime()));
         this.fromLatProperty = new SimpleStringProperty(String.valueOf(tour.getFromLat()));
         this.fromLngProperty = new SimpleStringProperty(String.valueOf(tour.getFromLng()));

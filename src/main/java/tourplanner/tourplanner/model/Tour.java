@@ -19,7 +19,10 @@ public class Tour {
     private double distance;
     private String description;
     private int estimatedTime;
-    private String transportType;
+
+    @Enumerated(EnumType.STRING)
+    private TransportType transportType;
+
     private double fromLat;
     private double fromLng;
     private double toLat;
@@ -30,7 +33,7 @@ public class Tour {
 
 
     @Builder
-    public Tour(String name, String fromLocation, String toLocation, double distance, String description, int estimatedTime, String transportType) {
+    public Tour(String name, String fromLocation, String toLocation, double distance, String description, int estimatedTime, TransportType transportType) {
         this.name = name;
         this.fromLocation = fromLocation;
         this.toLocation = toLocation;
