@@ -37,7 +37,8 @@ public class MenuController {
         FileChooser fc = new FileChooser();
         fc.setTitle("Report speichern");
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF", "*.pdf"));
-        fc.setInitialFileName("Tour_    " + sel.getNameProperty().get().trim()  + "-report.pdf");
+        String safe = sel.getNameProperty().get().trim().replaceAll("\\s+", "");
+        fc.setInitialFileName("Tour_" + safe + "-report.pdf");
 
         File out = fc.showSaveDialog(null); // ggf. Stage referenzieren statt null
         if (out == null) return;

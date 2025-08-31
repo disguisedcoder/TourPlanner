@@ -10,6 +10,7 @@ import javafx.collections.transformation.FilteredList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import tourplanner.tourplanner.model.Tour;
 import tourplanner.tourplanner.service.ReportService;
 import tourplanner.tourplanner.service.TourLogService;
 import tourplanner.tourplanner.service.TourService;
@@ -56,6 +57,7 @@ public class MainViewModel {
     public void addTour(TourViewModel tvm) {
         tourSvc.addTour(tvm.toModel());
         allTours.add(tvm);
+        loadTours();
     }
 
     public void loadTours() {
@@ -63,22 +65,22 @@ public class MainViewModel {
         allTours.addAll(tourSvc.getAllTours().stream().map(TourViewModel::new).toList());
     }
 
-    public String generateMapHtml(String routeJson) {
-        if(routeJson == null || routeJson.isBlank()) {
-            return "<html><body><p>No map available</p></body></html>";
-        }
-
-        try {
-            URL url = getClass().getResource("/leaflet.html");
-            if(url == null) throw new IOException("leaflet.html not found in resources.");
-
-            String content = Files.readString(Paths.get(url.toURI()), StandardCharsets.UTF_8);
-            return content.replace("{MY_DIRECTIONS}", routeJson);
-        } catch(IOException | URISyntaxException e) {
-            e.printStackTrace();
-            return "<html><body><p>Error loading map</p></body></html>";
-        }
-    }
+//    public String generateMapHtml(String routeJson) {
+//        if(routeJson == null || routeJson.isBlank()) {
+//            return "<html><body><p>No map available</p></body></html>";
+//        }
+//
+//        try {
+//            URL url = getClass().getResource("/leaflet.html");
+//            if(url == null) throw new IOException("leaflet.html not found in resources.");
+//
+//            String content = Files.readString(Paths.get(url.toURI()), StandardCharsets.UTF_8);
+//            return content.replace("{MY_DIRECTIONS}", routeJson);
+//        } catch(IOException | URISyntaxException e) {
+//            e.printStackTrace();
+//            return "<html><body><p>Error loading map</p></body></html>";
+//        }
+//    }
 
     public void reportSelectedTour(Path target) {
         var sel = selectedTour.get();
@@ -96,13 +98,17 @@ public class MainViewModel {
             throw new UncheckedIOException("Report konnte nicht erstellt werden: " + e.getMessage(), e);
         }
     }
-//    public void deleteSelectedTour() {
-//        var t = selectedTour.get();
-//        if (t!=null) {
-//            tourSvc.removeTour(t.toModel());
-//            allTours.remove(t);
-//        }
-//    }
+    public void deleteSelectedTour() {
+        var t = selectedTour.get();
+
+        if (t!=null) {
+            Tour temp = new Tour();
+            temp.setId(t.getId());
+            tourSvc.removeTour(temp);
+            allTours.remove(t);
+            loadTours();
+        }
+    }
 //    public void findTours(String query) {
 //        String lower = query == null ? "" : query.toLowerCase();
 //        tours.setPredicate(tv ->

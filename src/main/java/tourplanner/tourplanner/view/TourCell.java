@@ -13,8 +13,15 @@ public class TourCell extends ListCell<TourViewModel> {
     protected void updateItem(TourViewModel vm, boolean empty) {
         super.updateItem(vm, empty);
 
-        if (empty || vm == null) { setGraphic(null); return; }
+        if (empty || vm == null) {
+            textProperty().unbind();
+            setText(null);
+            setGraphic(null);
+        } else {
 
-        setText(vm.getNameProperty().get());
+            textProperty().unbind();
+            setText(vm.getNameProperty().get());
+        }
+
     }
 }

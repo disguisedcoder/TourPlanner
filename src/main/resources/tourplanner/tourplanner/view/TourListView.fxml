@@ -20,20 +20,24 @@
     </HBox>
 
     <!-- Überschrift -->
-    <Label text="Tours"
-           style="-fx-font-size:14px; -fx-font-weight:bold;"/>
-
+    <HBox spacing="8" alignment="CENTER_LEFT">
+        <Label text="Tours" style="-fx-font-size:14px; -fx-font-weight:bold;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Add Tour" onAction="#onNewTour"/>
+    </HBox>
     <!-- Tour-Liste -->
     <ListView fx:id="tourList" VBox.vgrow="ALWAYS"/>
 
     <!-- Update / Delete Buttons -->
-    <HBox spacing="10" alignment="CENTER">
-        <!--<Button text="Update"
-                style="-fx-background-color:#4CAF50; -fx-text-fill:white;"
-                onAction="#onEditTour"/>-->
-        <!--<Button text="Delete"
-                style="-fx-background-color:#F44336; -fx-text-fill:white;"
-                onAction="#onDeleteTour"/>-->
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button fx:id="updateBtn"
+                text="Update"
+                onAction="#onEditTour"
+                style="-fx-background-color:#4CAF50; -fx-text-fill:white;"/>
+        <Button fx:id="deleteBtn"
+                text="Delete"
+                onAction="#onDeleteTour"
+                style="-fx-background-color:#F44336; -fx-text-fill:white;"/>
     </HBox>
 
 </VBox>

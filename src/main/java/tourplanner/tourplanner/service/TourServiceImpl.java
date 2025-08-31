@@ -42,6 +42,11 @@ public class TourServiceImpl implements TourService{
 
     @Override
     public void removeTour(Tour tour) {
-        tourRepository.delete(tour);
+
+        if (tour.getId() == 0L) {
+            throw new IllegalArgumentException("Tour ID required for deletion");
+        }
+        // deleteById ist robust und vermeidet ein unnötiges merge()
+        tourRepository.deleteById(tour.getId());
     }
 }
