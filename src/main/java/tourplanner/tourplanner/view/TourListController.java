@@ -24,6 +24,7 @@ public class TourListController {
 
     private final MainViewModel vm;
     private final CreateTourController createTourController;
+    private final EditController editController;
 
 
 
@@ -44,18 +45,16 @@ public class TourListController {
 //        vm.findTours(searchField.getText());
 //    }
 //
-//    @FXML void onEditTour() {
-//        TourViewModel sel = tourList.getSelectionModel().getSelectedItem();
-//        if (sel != null) {
-//            EditTourController c = new EditTourController();
-//            c.setTour(sel);
-//            c.showDialog();
-//        } else {
-//            new Alert(Alert.AlertType.WARNING,
-//                    "Bitte zuerst eine Tour auswählen.").showAndWait();
-//        }
-//    }
-//
+        @FXML
+        public void onEditTour(ActionEvent e) {
+            var sel = vm.selectedTourProperty().get();
+            if (sel == null) {
+                new Alert(Alert.AlertType.WARNING, "Bitte zuerst eine Tour auswählen.").showAndWait();
+                return;
+            }
+            editController.showDialog(sel);
+
+        }
         @FXML void onDeleteTour(ActionEvent actionEvent) {
             var sel = vm.selectedTourProperty().get();
             if (sel == null) {
@@ -74,8 +73,6 @@ public class TourListController {
         createTourController.showDialog();
     }
 
-    public void onEditTour(ActionEvent actionEvent) {
-    }
 
 
 }

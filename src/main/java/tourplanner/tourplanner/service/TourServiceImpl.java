@@ -49,4 +49,10 @@ public class TourServiceImpl implements TourService{
         // deleteById ist robust und vermeidet ein unnötiges merge()
         tourRepository.deleteById(tour.getId());
     }
+    @Override
+    public void updateTour(Tour tour) {
+        // ggf. weitere Logik (Geocoding etc.)
+        tourRepository.save(tour); // JPA: mit vorhandener ID = Update
+    }
+
 }
