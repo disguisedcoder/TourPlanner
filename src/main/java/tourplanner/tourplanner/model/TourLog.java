@@ -19,19 +19,21 @@ public class TourLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String tourName;
+    private String username;
     private LocalDateTime dateTime;
     private String comment;
     private int difficulty;
     private double totalDistance;
     private int totalTime;
-    private String rating;
+    private int rating;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_tour"))
     private Tour tour;
 
-    public TourLog(String tourName, LocalDateTime now, String comment, int difficulty, double dist, int totalTime, String rating) {
+    public TourLog(String tourName,String username , LocalDateTime now, String comment, int difficulty, double dist, int totalTime, int rating) {
         this.tourName = tourName;
+        this.username = username;
         this.dateTime = now;
         this.comment = comment;
         this.difficulty = difficulty;

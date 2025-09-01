@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="8" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="tourplanner.tourplanner.view.ManageLogsController"
+>
+    <children>
+        <Label text="Tour Logs"/>
+        <TableView fx:id="logsTable" prefHeight="260">
+            <columns>
+                <TableColumn fx:id="colDate"     text="Date"     prefWidth="110"/>
+                <TableColumn fx:id="colUser"     text="User"     prefWidth="120"/>
+                <TableColumn fx:id="colComment"  text="Comment"  prefWidth="260"/>
+                <TableColumn fx:id="colDiff"     text="Diff"     prefWidth="60"/>
+                <TableColumn fx:id="colTime"     text="Time (min)" prefWidth="90"/>
+                <TableColumn fx:id="colDist"     text="Distance (km)" prefWidth="110"/>
+                <TableColumn fx:id="colRating"   text="Rating"   prefWidth="70"/>
+            </columns>
+        </TableView>
+        <HBox spacing="6">
+            <Button text="Add"    onAction="#onAdd"/>
+            <Button text="Edit"   onAction="#onEdit"/>
+            <Button text="Delete" onAction="#onDelete"/>
+        </HBox>
+    </children>
+</VBox>

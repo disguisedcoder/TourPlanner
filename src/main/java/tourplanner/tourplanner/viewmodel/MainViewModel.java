@@ -14,6 +14,8 @@ import tourplanner.tourplanner.model.Tour;
 import tourplanner.tourplanner.service.ReportService;
 import tourplanner.tourplanner.service.TourLogService;
 import tourplanner.tourplanner.service.TourService;
+import tourplanner.tourplanner.view.ManageLogsController;
+import tourplanner.tourplanner.viewmodel.model.TourLogViewModel;
 import tourplanner.tourplanner.viewmodel.model.TourViewModel;
 
 import java.io.IOException;
@@ -24,6 +26,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -39,21 +42,20 @@ public class MainViewModel {
     private final TourService tourSvc;
     private final TourLogService logSvc;
     private final ReportService reportService;
+    private ManageLogsController manageLogsController;
 //    public TourLogService getLogService() { return logSvc; }
 
     public final ObservableList<TourViewModel> allTours = FXCollections.observableArrayList();
-
     public final FilteredList<TourViewModel> tours = new FilteredList<>(allTours, t -> true);
+
+    public final ObservableList<TourLogViewModel> allLogs = FXCollections.observableArrayList();
+    public final FilteredList<TourLogViewModel> logs = new FilteredList<>(allLogs, l -> true);
 
     private final ObjectProperty<TourViewModel> selectedTour =
             new SimpleObjectProperty<>();
+    private final StringProperty searchQuery = new SimpleStringProperty("");
 
-    //    private MainViewModel(TourService tourSvc, TourLogService logSvc) {
-//        this.tourSvc = tourSvc;
-//        this.logSvc  = logSvc;
-//        tourSvc.getAllTours().forEach(t -> allTours.add(new TourViewModel(t)));
-//    }
-//
+    // ---- Tours ----
     public void addTour(TourViewModel tvm) {
         tourSvc.addTour(tvm.toModel());
         allTours.add(tvm);
@@ -64,23 +66,10 @@ public class MainViewModel {
         allTours.clear();
         allTours.addAll(tourSvc.getAllTours().stream().map(TourViewModel::new).toList());
     }
-
-//    public String generateMapHtml(String routeJson) {
-//        if(routeJson == null || routeJson.isBlank()) {
-//            return "<html><body><p>No map available</p></body></html>";
-//        }
-//
-//        try {
-//            URL url = getClass().getResource("/leaflet.html");
-//            if(url == null) throw new IOException("leaflet.html not found in resources.");
-//
-//            String content = Files.readString(Paths.get(url.toURI()), StandardCharsets.UTF_8);
-//            return content.replace("{MY_DIRECTIONS}", routeJson);
-//        } catch(IOException | URISyntaxException e) {
-//            e.printStackTrace();
-//            return "<html><body><p>Error loading map</p></body></html>";
-//        }
-//    }
+    {
+        selectedTour.addListener((obs, o, n) -> loadLogsForSelected());
+        searchQuery.addListener((obs, o, n) -> applySearch());
+    }
 
     public void reportSelectedTour(Path target) {
         var sel = selectedTour.get();
@@ -110,30 +99,120 @@ public class MainViewModel {
         }
     }
     public void updateTour(TourViewModel tvm) {
-        // tvm enthält geänderte Properties und (wichtig) die ID
         tourSvc.updateTour(tvm.toModel());
-        loadTours();                     // JPA: save(...) macht Update wenn ID vorhanden
-        // Kein loadTours() nötig, weil wir das vorhandene ViewModel bereits aktualisiert haben.
-        // Wenn du sicherheitshalber neu laden willst:
-        // loadTours();
+        loadTours();
     }
 
-//    public void findTours(String query) {
-//        String lower = query == null ? "" : query.toLowerCase();
-//        tours.setPredicate(tv ->
-//                tv.nameProperty().get().toLowerCase().contains(lower));
-//    }
-//
-//    public void refreshTours() {
-//        allTours.clear();
-//        tourSvc.getAllTours()
-//                .forEach(t -> allTours.add(new TourViewModel(t)));
-//        tours.setPredicate(tv -> true);
-//    }
-//
+    // ---- Logs ----
+    public void loadLogsForSelected() {
+        allLogs.clear();
+        var sel = selectedTour.get();
+        if (sel == null) return;
+        var tour = sel.toModel();
+        allLogs.addAll(logSvc.getLogsForTour(tour.getName()).stream().map(TourLogViewModel::new).toList());
+        applySearch();
+    }
 
+    public void addLog(TourLogViewModel lvm) {
+        var sel = selectedTour.get();
+        if (sel == null) throw new IllegalStateException("Bitte zuerst eine Tour auswählen.");
+        var tour = sel.toModel();
+        logSvc.addLog(tour, lvm.toModel(tour));
+        loadLogsForSelected();
+    }
+
+    public void updateLog(TourLogViewModel lvm) {
+        var sel = selectedTour.get();
+        if (sel == null) throw new IllegalStateException("Bitte zuerst eine Tour auswählen.");
+        logSvc.updateLog(lvm.toModel(sel.toModel()));
+        loadLogsForSelected();
+    }
+
+    public void deleteLog(TourLogViewModel lvm) {
+        if (lvm == null) return;
+        logSvc.removeLog(lvm.toModel(selectedTour.get() == null ? null : selectedTour.get().toModel()));
+        loadLogsForSelected();
+    }
+    // ---- Suche + computed attributes ----
+    public void applySearch() {
+        final String q = (searchQuery.get() == null ? "" : searchQuery.get().toLowerCase().trim());
+
+        tours.setPredicate(tv -> {
+            if (q.isBlank()) return true;
+
+            // computed attributes
+            int popularity = computePopularity(tv);
+            int childFriendly = computeChildFriendliness(tv);
+
+            String hay = String.join(" ",
+                    nz(tv.getNameProperty().get()),
+                    nz(tv.getFromProperty().get()),
+                    nz(tv.getToProperty().get()),
+                    nz(tv.getDescriptionProperty().get()),
+                    tv.getTransportTypeProperty().get() == null ? "" : tv.getTransportTypeProperty().get().getLabel(),
+                    String.valueOf(popularity),
+                    String.valueOf(childFriendly)
+            ).toLowerCase();
+            return hay.contains(q);
+        });
+
+        logs.setPredicate(lv -> {
+            if (q.isBlank()) return true;
+            String hay = String.join(" ",
+                    nz(lv.getUsernameProperty().get()),
+                    nz(lv.getCommentProperty().get()),
+                    String.valueOf(lv.getDifficultyProperty().get()),
+                    String.valueOf(lv.getTotalTimeProperty().get()),
+                    String.valueOf(lv.getTotalDistanceProperty().get()),
+                    String.valueOf(lv.getRatingProperty().get()),
+                    String.valueOf(lv.getDateProperty().get())
+            ).toLowerCase();
+            return hay.contains(q);
+        });
+    }
+
+    private int computePopularity(TourViewModel tv) {
+        try { return logSvc.countLogsForTour(tv.toModel()); }
+        catch (Exception e) { return 0; }
+    }
+
+
+    private int computeChildFriendliness(TourViewModel tv) {
+        try {
+            var tour = tv.toModel();
+            var logs = logSvc.getLogsForTour(tour.getName());
+            if (logs.isEmpty()) return 3; // neutral ohne Daten
+
+            double avgDiff = logs.stream().mapToInt(l -> l.getDifficulty()).average().orElse(3);
+            DoubleSummaryStatistics distStat = logs.stream().mapToDouble(l -> l.getTotalDistance()).summaryStatistics();
+            DoubleSummaryStatistics timeStat = logs.stream().mapToDouble(l -> l.getTotalTime()).summaryStatistics();
+
+            double score = 5.0;
+            score -= Math.max(0, (avgDiff - 1.0)) * 0.8;
+
+            double avgDist = distStat.getAverage();
+            if (avgDist > 80) score -= 2;
+            else if (avgDist > 50) score -= 1;
+
+            double avgMin = timeStat.getAverage();
+            if (avgMin > 360) score -= 2;
+            else if (avgMin > 240) score -= 1;
+
+            int s = (int) Math.round(score);
+            return Math.max(1, Math.min(5, s));
+        } catch (Exception e) {
+            return 3;
+        }
+    }
+    // Null-Safety-Helper
+
+    private static String nz(String s) {
+        return s == null ? "" : s;
+    }
 
     public ObjectProperty<TourViewModel> selectedTourProperty() {
         return selectedTour;
     }
+    public StringProperty searchQueryProperty() { return searchQuery; }
+
 }

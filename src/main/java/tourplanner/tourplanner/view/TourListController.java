@@ -44,7 +44,7 @@ public class TourListController {
 //    @FXML void onSearch() {
 //        vm.findTours(searchField.getText());
 //    }
-//
+
         @FXML
         public void onEditTour(ActionEvent e) {
             var sel = vm.selectedTourProperty().get();
@@ -74,5 +74,7 @@ public class TourListController {
     }
 
 
-
+    public void onSearch(ActionEvent actionEvent) {
+        vm.searchQueryProperty().set(searchField.getText());
+    }
 }

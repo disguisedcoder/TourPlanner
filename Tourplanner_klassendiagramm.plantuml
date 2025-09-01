@@ -1,0 +1,85 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class CreateTourController
+entity DirectionsResult << record >>
+class EditController
+entity Feature << record >>
+entity GeocodeFeatureResponse << record >>
+entity GeocodeSearchResponse << record >>
+entity GeometryResponse << record >>
+class MainController
+class MainViewModel
+class MainViewModelTest
+class MenuController
+class ObjectMapperBean
+class OpenRouteServiceDirectionsService
+class OpenRouteServiceDirectionsServiceTest
+class OpenRouteServiceGeocodeSearchService
+class OpenRouteServiceGeocodeSearchServiceTest
+class ReportService
+class ReportServiceTest
+class Tour
+class TourBuilder
+class TourCell
+class TourDetailController
+class TourListController
+class TourLog
+class TourLogBuilder
+interface TourLogRepository << interface >>
+interface TourLogService << interface >>
+class TourLogServiceImpl
+class TourPlannerApplication
+class TourPlannerConfig
+interface TourRepository << interface >>
+interface TourService << interface >>
+class TourServiceImpl
+class TourServiceTest
+class TourViewModel
+class TourViewModelTest
+enum TransportType << enumeration >>
+
+CreateTourController                     "1" *-[#595959,plain]-> "vm\n1" MainViewModel                            
+DirectionsResult                          +-[#820000,plain]-  OpenRouteServiceDirectionsService        
+EditController                           "1" *-[#595959,plain]-> "vm\n1" MainViewModel                            
+EditController                           "1" *-[#595959,plain]-> "original\n1" TourViewModel                            
+MainViewModel                            "1" *-[#595959,plain]-> "reportService\n1" ReportService                            
+MainViewModel                            "1" *-[#595959,plain]-> "logSvc\n1" TourLogService                           
+MainViewModel                            "1" *-[#595959,plain]-> "tourSvc\n1" TourService                              
+MainViewModel                            "1" *-[#595959,plain]-> "allTours\n*" TourViewModel                            
+MainViewModelTest                        "1" *-[#595959,plain]-> "vm\n1" MainViewModel                            
+MainViewModelTest                        "1" *-[#595959,plain]-> "reportService\n1" ReportService                            
+MainViewModelTest                        "1" *-[#595959,plain]-> "logService\n1" TourLogService                           
+MainViewModelTest                        "1" *-[#595959,plain]-> "tourService\n1" TourService                              
+MenuController                           "1" *-[#595959,plain]-> "createTourController\n1" CreateTourController                     
+MenuController                           "1" *-[#595959,plain]-> "vm\n1" MainViewModel                            
+ReportService                            "1" *-[#595959,plain]-> "logRepo\n1" TourLogRepository                        
+ReportService                            "1" *-[#595959,plain]-> "tourRepo\n1" TourRepository                           
+ReportServiceTest                        "1" *-[#595959,plain]-> "logRepository\n1" TourLogRepository                        
+ReportServiceTest                        "1" *-[#595959,plain]-> "tourRepository\n1" TourRepository                           
+Tour                                     "1" *-[#595959,plain]-> "tourLogs\n*" TourLog                                  
+Tour                                     "1" *-[#595959,plain]-> "transportType\n1" TransportType                            
+TourBuilder                               +-[#820000,plain]-  Tour                                     
+TourBuilder                              "1" *-[#595959,plain]-> "transportType\n1" TransportType                            
+TourDetailController                     "1" *-[#595959,plain]-> "vm\n1" MainViewModel                            
+TourDetailController                     "1" *-[#595959,plain]-> "lastBound\n1" TourViewModel                            
+TourListController                       "1" *-[#595959,plain]-> "createTourController\n1" CreateTourController                     
+TourListController                       "1" *-[#595959,plain]-> "editController\n1" EditController                           
+TourListController                       "1" *-[#595959,plain]-> "vm\n1" MainViewModel                            
+TourLog                                  "1" *-[#595959,plain]-> "tour\n1" Tour                                     
+TourLogBuilder                           "1" *-[#595959,plain]-> "tour\n1" Tour                                     
+TourLogBuilder                            +-[#820000,plain]-  TourLog                                  
+TourLogServiceImpl                       "1" *-[#595959,plain]-> "tourLogRepository\n1" TourLogRepository                        
+TourLogServiceImpl                        -[#008200,dashed]-^  TourLogService                           
+TourServiceImpl                          "1" *-[#595959,plain]-> "directions\n1" OpenRouteServiceDirectionsService        
+TourServiceImpl                          "1" *-[#595959,plain]-> "geocodeSearchService\n1" OpenRouteServiceGeocodeSearchService     
+TourServiceImpl                          "1" *-[#595959,plain]-> "tourRepository\n1" TourRepository                           
+TourServiceImpl                           -[#008200,dashed]-^  TourService                              
+TourServiceTest                          "1" *-[#595959,plain]-> "directions\n1" OpenRouteServiceDirectionsService        
+TourServiceTest                          "1" *-[#595959,plain]-> "geocodeSearchService\n1" OpenRouteServiceGeocodeSearchService     
+TourServiceTest                          "1" *-[#595959,plain]-> "tourRepository\n1" TourRepository                           
+TourServiceTest                          "1" *-[#595959,plain]-> "tourService\n1" TourServiceImpl                          
+@enduml

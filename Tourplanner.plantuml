@@ -1,0 +1,44 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class CreateTourController
+class EditController
+entity Feature << record >>
+entity GeocodeFeatureResponse << record >>
+entity GeocodeSearchResponse << record >>
+entity GeometryResponse << record >>
+class MainController
+class MainViewModel
+class MainViewModelTest
+class MenuController
+class ObjectMapperBean
+class OpenRouteServiceDirectionsService
+class OpenRouteServiceDirectionsServiceTest
+class OpenRouteServiceGeocodeSearchService
+class OpenRouteServiceGeocodeSearchServiceTest
+class ReportService
+class ReportServiceTest
+class Tour
+class TourCell
+class TourDetailController
+class TourListController
+class TourLog
+interface TourLogRepository << interface >>
+interface TourLogService << interface >>
+class TourLogServiceImpl
+class TourPlannerApplication
+class TourPlannerConfig
+interface TourRepository << interface >>
+interface TourService << interface >>
+class TourServiceImpl
+class TourServiceTest
+class TourViewModel
+class TourViewModelTest
+enum TransportType << enumeration >>
+
+TourLogServiceImpl                        -[#008200,dashed]-^  TourLogService                           
+TourServiceImpl                           -[#008200,dashed]-^  TourService                              
+@enduml

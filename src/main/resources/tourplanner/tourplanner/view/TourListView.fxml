@@ -16,7 +16,7 @@
     <!-- Suchleiste -->
     <HBox spacing="5">
         <TextField fx:id="searchField" promptText="Search…"/>
-        <!--<Button text="Search" onAction="#onSearch"/>-->
+        <Button text="Search" onAction="#onSearch"/>
     </HBox>
 
     <!-- Überschrift -->

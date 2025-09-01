@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+<VBox spacing="10" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <GridPane hgap="10" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" minWidth="120"/>
+                <ColumnConstraints hgrow="ALWAYS"/>
+            </columnConstraints>
+            <children>
+                <Label text="Date" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <DatePicker fx:id="dateField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="User" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="userField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <Label text="Comment" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextArea fx:id="commentArea" prefRowCount="3" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                <Label text="Difficulty (1..5)" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <Spinner fx:id="difficultySpinner" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                <Label text="Total time (min)" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <TextField fx:id="timeField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                <Label text="Total distance (km)" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <TextField fx:id="distanceField" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                <Label text="Rating (1..5)" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                <Spinner fx:id="ratingSpinner" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+            </children>
+        </GridPane>
+    </children>
+    <padding><Insets top="10" right="10" bottom="0" left="10"/></padding>
+</VBox>

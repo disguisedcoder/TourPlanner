@@ -3,6 +3,7 @@ package tourplanner.tourplanner.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,7 +33,7 @@ public class Tour {
     private String routeGeoJson;
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "tour")
-    private List<TourLog> tourLogs;
+    private List<TourLog> tourLogs = new ArrayList<>();
 
 
     @Builder

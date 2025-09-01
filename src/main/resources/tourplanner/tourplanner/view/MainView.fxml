@@ -24,11 +24,11 @@
             </top>
 
             <!-- Unten: TourLog -->
-            <!--
+
             <center>
-                <fx:include source="TourLog.fxml"/>
+                <fx:include source="ManageLogs.fxml"/>
             </center>
-            -->
+
 
         </BorderPane>
     </center>

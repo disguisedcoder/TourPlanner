@@ -51,4 +51,32 @@
     <StackPane HBox.hgrow="ALWAYS" minWidth="0">
         <WebView fx:id="mapView" prefHeight="300" prefWidth="300" />
     </StackPane>
+<!--    <VBox spacing="8">-->
+<!--        &lt;!&ndash; Header mit Titel + Add-Button (rechts) &ndash;&gt;-->
+<!--        <HBox alignment="CENTER_LEFT" spacing="10">-->
+<!--            <Label text="Tour Logs" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>-->
+<!--            <Pane HBox.hgrow="ALWAYS"/>-->
+<!--            <Button text="Add Log" onAction="#onAddLog"/>-->
+<!--        </HBox>-->
+
+<!--        &lt;!&ndash; Tabelle der Logs &ndash;&gt;-->
+<!--        <TableView fx:id="logsTable" prefHeight="260">-->
+<!--            <columns>-->
+<!--                <TableColumn fx:id="colDate"     text="Date"        prefWidth="110"/>-->
+<!--                <TableColumn fx:id="colUser"     text="User"        prefWidth="120"/>-->
+<!--                <TableColumn fx:id="colComment"  text="Comment"     prefWidth="260"/>-->
+<!--                <TableColumn fx:id="colDiff"     text="Diff"        prefWidth="60"/>-->
+<!--                <TableColumn fx:id="colTime"     text="Time (min)"  prefWidth="90"/>-->
+<!--                <TableColumn fx:id="colDist"     text="Distance"    prefWidth="100"/>-->
+<!--                <TableColumn fx:id="colRating"   text="Rating"      prefWidth="70"/>-->
+<!--            </columns>-->
+<!--        </TableView>-->
+
+<!--        &lt;!&ndash; Footer mit Edit/Delete rechts &ndash;&gt;-->
+<!--        <HBox alignment="CENTER_RIGHT" spacing="6">-->
+<!--            <Button fx:id="btnEditLog"   text="Edit"   onAction="#onEditLog"   disable="true"/>-->
+<!--            <Button fx:id="btnDeleteLog" text="Delete" onAction="#onDeleteLog" disable="true"/>-->
+<!--        </HBox>-->
+<!--    </VBox>-->
+
 </HBox>
