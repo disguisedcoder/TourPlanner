@@ -17,6 +17,9 @@ import java.util.List;
 public class TourServiceImpl implements TourService{
     private final TourRepository tourRepository;
     private final OpenRouteServiceGeocodeSearchService geocodeSearchService;
+    private final OpenRouteServiceGeocodeSearchService geocode;
+    private final OpenRouteServiceDirectionsService directions;
+
 
     @Override
     public List<Tour> getAllTours() {
@@ -35,7 +38,7 @@ public class TourServiceImpl implements TourService{
         tour.setToLng(toSearchResponse.features().get(0).geometry().coordinates().get(1));
         tour.setToLat(toSearchResponse.features().get(0).geometry().coordinates().get(0));
 
-
+        enrichWithGeoAndRoute(tour);
         tourRepository.save(tour);
         log.info("Added new tour: {}", tour.getName());
     }
@@ -51,8 +54,33 @@ public class TourServiceImpl implements TourService{
     }
     @Override
     public void updateTour(Tour tour) {
-        // ggf. weitere Logik (Geocoding etc.)
+
+        enrichWithGeoAndRoute(tour);
         tourRepository.save(tour); // JPA: mit vorhandener ID = Update
     }
+
+    private void enrichWithGeoAndRoute(Tour tour) {
+        // 1) Geocode From
+        var from = geocode.getCoordinates(tour.getFromLocation())
+                .features().get(0).geometry().coordinates(); // [lon,lat]
+        // 2) Geocode To
+        var to   = geocode.getCoordinates(tour.getToLocation())
+                .features().get(0).geometry().coordinates();
+
+        double fromLon = from.get(0), fromLat = from.get(1);
+        double toLon   = to.get(0),   toLat   = to.get(1);
+
+        tour.setFromLat(fromLat); tour.setFromLng(fromLon);
+        tour.setToLat(toLat);     tour.setToLng(toLon);
+
+        // 3) Directions -> Distanz, Dauer, Route
+        directions.route(tour.getTransportType(), fromLat, fromLon, toLat, toLon)
+                .ifPresent(res -> {
+                    tour.setDistance(res.distanceKm());
+                    tour.setEstimatedTime(res.durationMinutes());
+                    tour.setRouteGeoJson(res.geometryGeoJson());
+                });
+    }
+
 
 }

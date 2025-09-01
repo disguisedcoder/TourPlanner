@@ -67,22 +67,51 @@ public class TourDetailController {
                         )
                 );                estimateField.textProperty().bind(
                         Bindings.concat(n.getEstimatedTimeProperty()));
-
                 try {
                     URL url = getClass().getResource("/leaflet.html");
-                    if(url == null) throw new IOException("leaflet.html not found in resources.");
+                    if (url == null) throw new IOException("leaflet.html not found in resources.");
 
                     String content = Files.readString(Paths.get(url.toURI()), StandardCharsets.UTF_8);
-                    content = content.replace("{GEOJSON_1}", "{\"type\": \"Feature\", \"geometry\": { \"type\": \"Point\", \"coordinates\": [%s, %s] }};"
-                            .formatted(n.getFromLatProperty().get(), n.getFromLngProperty().get()));
-                    content = content.replace("{GEOJSON_2}", "{\"type\": \"Feature\", \"geometry\": { \"type\": \"Point\", \"coordinates\": [%s, %s] }};"
-                            .formatted(n.getToLatProperty().get(), n.getToLngProperty().get()));
-                    content = content.replace("{CENTER}", "[%s, %s]".formatted(n.getFromLngProperty().get(), n.getFromLatProperty().get()));
+
+                    // GeoJSON-Punkte: [lng, lat]  (lon, lat)
+                    String pointA = """
+        {"type":"Feature","geometry":{"type":"Point","coordinates":[%s,%s]}}
+        """.formatted(n.getFromLngProperty().get(), n.getFromLatProperty().get());
+
+                    String pointB = """
+        {"type":"Feature","geometry":{"type":"Point","coordinates":[%s,%s]}}
+        """.formatted(n.getToLngProperty().get(), n.getToLatProperty().get());
+
+                    content = content.replace("{GEOJSON_1}", pointA);
+                    content = content.replace("{GEOJSON_2}", pointB);
+
+                    // CENTER: nur wenn dein leaflet.html es für setView(CENTER, …) verwendet -> [lat, lng]
+                    content = content.replace("{CENTER}",
+                            "[%s,%s]".formatted(n.getFromLatProperty().get(), n.getFromLngProperty().get()));
+
+                    // ROUTE einsetzen (Geometry-Objekt oder null)
+                    String route = (n.getRouteGeoJsonProperty() != null) ? n.getRouteGeoJsonProperty().get() : null;
+                    content = content.replace("{ROUTE_GEOJSON}", (route == null || route.isBlank()) ? "null" : route);
 
                     mapView.getEngine().loadContent(content, "text/html");
-                } catch(IOException | URISyntaxException e) {
+                } catch (IOException | URISyntaxException e) {
                     e.printStackTrace();
                 }
+//                try {
+//                    URL url = getClass().getResource("/leaflet.html");
+//                    if(url == null) throw new IOException("leaflet.html not found in resources.");
+//
+//                    String content = Files.readString(Paths.get(url.toURI()), StandardCharsets.UTF_8);
+//                    content = content.replace("{GEOJSON_1}", "{\"type\": \"Feature\", \"geometry\": { \"type\": \"Point\", \"coordinates\": [%s, %s] }};"
+//                            .formatted(n.getFromLatProperty().get(), n.getFromLngProperty().get()));
+//                    content = content.replace("{GEOJSON_2}", "{\"type\": \"Feature\", \"geometry\": { \"type\": \"Point\", \"coordinates\": [%s, %s] }};"
+//                            .formatted(n.getToLatProperty().get(), n.getToLngProperty().get()));
+//                    content = content.replace("{CENTER}", "[%s, %s]".formatted(n.getFromLngProperty().get(), n.getFromLatProperty().get()));
+//
+//                    mapView.getEngine().loadContent(content, "text/html");
+//                } catch(IOException | URISyntaxException e) {
+//                    e.printStackTrace();
+//                }
 
             } else {
                 nameField.clear(); fromField.clear(); toField.clear(); distField.clear();

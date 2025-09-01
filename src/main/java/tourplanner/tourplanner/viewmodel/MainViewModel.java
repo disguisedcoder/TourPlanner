@@ -111,7 +111,8 @@ public class MainViewModel {
     }
     public void updateTour(TourViewModel tvm) {
         // tvm enthält geänderte Properties und (wichtig) die ID
-        tourSvc.updateTour(tvm.toModel());  // JPA: save(...) macht Update wenn ID vorhanden
+        tourSvc.updateTour(tvm.toModel());
+        loadTours();                     // JPA: save(...) macht Update wenn ID vorhanden
         // Kein loadTours() nötig, weil wir das vorhandene ViewModel bereits aktualisiert haben.
         // Wenn du sicherheitshalber neu laden willst:
         // loadTours();

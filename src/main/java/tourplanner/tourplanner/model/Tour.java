@@ -28,6 +28,9 @@ public class Tour {
     private double toLat;
     private double toLng;
 
+    @Lob
+    private String routeGeoJson;
+
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "tour")
     private List<TourLog> tourLogs;
 

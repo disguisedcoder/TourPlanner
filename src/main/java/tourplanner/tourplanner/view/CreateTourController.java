@@ -39,6 +39,10 @@ public class CreateTourController {
         Region content = null;
         try {
             content = f.load();
+            distField.setEditable(false);
+            estimateField.setEditable(false);
+            distField.setPromptText("auto");
+            estimateField.setPromptText("auto");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -62,18 +66,18 @@ public class CreateTourController {
 
         Optional<ButtonType> res = dlg.showAndWait();
         if (res.orElse(ButtonType.CANCEL) == ButtonType.OK) {
-            try {
-                Double.parseDouble(distField.getText());
-            }
-            catch (Exception e) { new Alert(Alert.AlertType.ERROR,
-                    "Distance must be a number").showAndWait(); return; }
-            try {
-                Integer.parseInt(estimateField.getText());
-            }
-            catch (Exception e) {
-                new Alert(Alert.AlertType.ERROR, "Estimated time must be an integer").showAndWait();
-                return;
-            }
+//            try {
+//                Double.parseDouble(distField.getText());
+//            }
+//            catch (Exception e) { new Alert(Alert.AlertType.ERROR,
+//                    "Distance must be a number").showAndWait(); return; }
+//            try {
+//                Integer.parseInt(estimateField.getText());
+//            }
+//            catch (Exception e) {
+//                new Alert(Alert.AlertType.ERROR, "Estimated time must be an integer").showAndWait();
+//                return;
+//            }
 
             TourViewModel model = new TourViewModel(
                     nameField.textProperty(),

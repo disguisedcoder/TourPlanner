@@ -21,6 +21,8 @@ public class TourViewModel {
     private StringProperty fromLngProperty;
     private StringProperty toLatProperty;
     private StringProperty toLngProperty;
+    private StringProperty routeGeoJsonProperty = new SimpleStringProperty();
+
     private final ObjectProperty<TransportType> transportTypeProperty = new SimpleObjectProperty<>();
 
     private final ObjectProperty<Tour> selectedTour = new SimpleObjectProperty<>();
@@ -49,18 +51,30 @@ public class TourViewModel {
         this.fromLngProperty = new SimpleStringProperty(String.valueOf(tour.getFromLng()));
         this.toLatProperty = new SimpleStringProperty(String.valueOf(tour.getToLat()));
         this.toLngProperty = new SimpleStringProperty(String.valueOf(tour.getToLng()));
+        this.routeGeoJsonProperty = new SimpleStringProperty(tour.getRouteGeoJson());
     }
 
     public Tour toModel() {
-        return new Tour(
+        Tour tour = new Tour(
                 nameProperty.get(),
                 fromProperty.get(),
                 toProperty.get(),
-                Double.parseDouble(distanceProperty.get()),
+                safeD(distanceProperty.get()),
                 descriptionProperty.get(),
-                Integer.parseInt(estimatedTimeProperty.get()),
+                safeI(estimatedTimeProperty.get()),
                 transportTypeProperty.get()
         );
+        if (id != null) tour.setId(id);
+
+        if (fromLatProperty != null) tour.setFromLat(safeD(fromLatProperty.get()));
+        if (fromLngProperty != null) tour.setFromLng(safeD(fromLngProperty.get()));
+        if (toLatProperty   != null) tour.setToLat(safeD(toLatProperty.get()));
+        if (toLngProperty   != null) tour.setToLng(safeD(toLngProperty.get()));
+        if (routeGeoJsonProperty != null) tour.setRouteGeoJson(routeGeoJsonProperty.get());
+
+        return tour;
     }
+    private static double safeD(String s) { try { return Double.parseDouble(s); } catch (Exception e) { return 0d; } }
+    private static int    safeI(String s) { try { return Integer.parseInt(s); } catch (Exception e) { return 0; } }
 }
 

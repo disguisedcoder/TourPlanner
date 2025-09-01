@@ -17,4 +17,5 @@ open module tourplanner.tourplanner {
     requires layout;
     requires kernel;
     requires io;
+    requires spring.beans;
 }
